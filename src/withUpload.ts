@@ -25,14 +25,14 @@ const DEFAULT_OPTIONS: Options = {
  * @param options Options to configure the behavior of the higher order function
  * @returns the wrapped handler function
  */
-export function withFileUpload(
+export function withFileUpload<RequestGeneric extends NextApiRequest = NextApiRequest, ResponseGeneric extends NextApiResponse = NextApiResponse>(
   handler: (
     req: FormNextApiRequest,
     res: NextApiResponse
   ) => Promise<void> | void,
   options?: Options
 ) {
-  return async (req: NextApiRequest, res: NextApiResponse) => {
+  return async (req: RequestGeneric, res: ResponseGeneric) => {
     const config = { ...DEFAULT_OPTIONS, ...options };
     if (!config.allowedMethods?.includes(req.method as HTTP_METHOD)) {
       res.status(405).end();
