@@ -25,14 +25,14 @@ const DEFAULT_OPTIONS: Options = {
  * @param options Options to configure the behavior of the higher order function
  * @returns the wrapped handler function
  */
-export function withFileUpload<RequestGeneric extends NextApiRequest = NextApiRequest, ResponseGeneric extends NextApiResponse = NextApiResponse>(
+export function withFileUpload<RequestGeneric extends FormNextApiRequest = FormNextApiRequest, ResponseGeneric extends NextApiResponse = NextApiResponse>(
   handler: (
-    req: FormNextApiRequest,
-    res: NextApiResponse
+    req: RequestGeneric,
+    res: ResponseGeneric
   ) => Promise<void> | void,
   options?: Options
 ) {
-  return async (req: RequestGeneric, res: ResponseGeneric) => {
+  return async (req: NextApiRequest, res: ResponseGeneric) => {
     const config = { ...DEFAULT_OPTIONS, ...options };
     if (!config.allowedMethods?.includes(req.method as HTTP_METHOD)) {
       res.status(405).end();
@@ -47,7 +47,7 @@ export function withFileUpload<RequestGeneric extends NextApiRequest = NextApiRe
       }
       const { files, fields } = await parseForm(req);
       await handler(
-        { ...req, files, file: files[0], fields } as FormNextApiRequest,
+        { ...req, files, file: files[0], fields } as RequestGeneric,
         res
       );
       await Promise.all(files.map(file => file.destroy()));
