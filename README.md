@@ -17,7 +17,7 @@ pnpm add next-multipart
 
 ## Usage
 
-*TL;DR: *
+**TL;DR:**
 
 1. `import { withFileUpload, getConfig } from 'next-multipart'`
 2. Simply wrap any api route with `withFileUpload`
