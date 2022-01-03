@@ -16,10 +16,23 @@ describe('withFileUpload', () => {
     expect(response.statusCode).toBe(405);
   });
 
+  it('should throw an error if a parsed body is present', async () => {
+    const request = httpMocks.createRequest({
+      method: 'POST',
+    });
+    const response = httpMocks.createResponse();
+
+    await withFileUpload(async (_req, res) => {
+      res.status(123).end();
+    })(request, response);
+    expect(response.statusCode).toBe(500);
+  });
+
   it('execute the handler if the request is valid', async () => {
     const request = httpMocks.createRequest({
       method: 'POST',
     });
+    request.body = undefined;
     const response = httpMocks.createResponse();
 
     await withFileUpload(async (_req, res) => {
@@ -35,6 +48,7 @@ describe('withFileUpload', () => {
     const request = httpMocks.createRequest({
       method: 'POST',
     });
+    request.body = undefined;
     const response = httpMocks.createResponse();
 
     await withFileUpload(async (_req, res) => {
@@ -51,6 +65,7 @@ describe('withFileUpload', () => {
     const request = httpMocks.createRequest({
       method: 'POST',
     });
+    request.body = undefined;
     const response = httpMocks.createResponse();
 
     await withFileUpload(async (_req, res) => {
