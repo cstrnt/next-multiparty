@@ -25,7 +25,10 @@ const DEFAULT_OPTIONS: Options = {
  * @returns the wrapped handler function
  */
 export function withFileUpload(
-  handler: (req: FormNextApiRequest, res: NextApiResponse) => Promise<void> | void,
+  handler: (
+    req: FormNextApiRequest,
+    res: NextApiResponse
+  ) => Promise<void> | void,
   options?: Options
 ) {
   return async (req: NextApiRequest, res: NextApiResponse) => {
@@ -36,8 +39,10 @@ export function withFileUpload(
     }
     try {
       // If req.body is set, it means that next.js parsed the body already
-      if(req.body){
-        throw new Error("Invalid config. Please export the config as the variable `const`")
+      if (req.body) {
+        throw new Error(
+          'Invalid config. Please export the config as the variable `const`'
+        );
       }
       const files = await parseForm(req);
       await handler(
@@ -46,7 +51,7 @@ export function withFileUpload(
       );
       await Promise.all(files.map(file => file.destroy()));
     } catch (e) {
-      console.error(e)
+      console.error(e);
       res.status(500).end();
     }
   };

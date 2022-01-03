@@ -10,7 +10,7 @@ export type EnhancedFile = formidable.File & {
 
 export function parseForm(req: NextApiRequest) {
   if (!req.headers['content-type']?.startsWith('multipart/form-data')) {
-    throw new Error("Invalid Content-Type Header")
+    throw new Error('Invalid Content-Type Header');
   }
   return new Promise<Array<EnhancedFile>>((resolve, reject) => {
     formidable({}).parse(req, (err, _fields, files) => {
@@ -38,12 +38,12 @@ export function parseForm(req: NextApiRequest) {
  * @param config the default api route config
  * @returns the passed config merged with the necessary config for the `withFileUpload` higher order function
  */
-export function getConfig(config?: Record<string, any>){
+export function getConfig(config?: Record<string, any>) {
   return {
     ...config,
     api: {
       ...config?.api,
       bodyParser: false,
-    }
-  }
+    },
+  };
 }
