@@ -5,6 +5,7 @@ import { HTTP_METHOD } from './lib/types';
 export type FormNextApiRequest = NextApiRequest & {
   files: EnhancedFile[];
   file?: EnhancedFile;
+  fields: Record<string, string>;
 };
 
 type Options = {
@@ -44,9 +45,9 @@ export function withFileUpload(
           'Invalid config. Please export the config as the variable `const`'
         );
       }
-      const files = await parseForm(req);
+      const { files, fields } = await parseForm(req);
       await handler(
-        { ...req, files, file: files[0] } as FormNextApiRequest,
+        { ...req, files, file: files[0], fields } as FormNextApiRequest,
         res
       );
       await Promise.all(files.map(file => file.destroy()));

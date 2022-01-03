@@ -1,7 +1,7 @@
 import { withFileUpload, getConfig } from '../../../dist';
 
 export default withFileUpload(async function handler(req, res) {
-  res.json(req.file)
+  res.json({ file: req.file, fields: req.fields });
 });
 
-export const config = getConfig()
+export const config = getConfig();

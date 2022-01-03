@@ -12,13 +12,16 @@ export function parseForm(req: NextApiRequest) {
   if (!req.headers['content-type']?.startsWith('multipart/form-data')) {
     throw new Error('Invalid Content-Type Header');
   }
-  return new Promise<Array<EnhancedFile>>((resolve, reject) => {
-    formidable({}).parse(req, (err, _fields, files) => {
+  return new Promise<{
+    files: EnhancedFile[];
+    fields: Record<string, string>;
+  }>((resolve, reject) => {
+    formidable({}).parse(req, (err, fields, files) => {
       if (err) {
         return reject(err);
       }
-      return resolve(
-        Object.entries(files).map(([name, file]) => {
+      const parsedFiles: Array<EnhancedFile> = Object.entries(files).map(
+        ([name, file]) => {
           const singleFile = Array.isArray(file) ? file[0] : file;
           return {
             ...singleFile,
@@ -26,8 +29,15 @@ export function parseForm(req: NextApiRequest) {
             toBuffer: () => fs.promises.readFile(singleFile.filepath),
             destroy: () => fs.promises.unlink(singleFile.filepath),
           };
-        })
+        }
       );
+      const parsedFields = Object.entries(fields).reduce<
+        Record<string, string>
+      >((acc, [name, value]) => {
+        acc[name] = Array.isArray(value) ? value[0] : value;
+        return acc;
+      }, {});
+      return resolve({ files: parsedFiles, fields: parsedFields });
     });
   });
 }
