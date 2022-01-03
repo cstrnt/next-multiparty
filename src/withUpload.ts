@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { EnhancedFile, parseForm } from './lib/helpers';
 import { HTTP_METHOD } from './lib/types';
 
-type FormNextApiRequest = NextApiRequest & {
+export type FormNextApiRequest = NextApiRequest & {
   files: EnhancedFile[];
   file?: EnhancedFile;
 };
