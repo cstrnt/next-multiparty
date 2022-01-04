@@ -3,7 +3,7 @@ import { parseForm } from '../src/lib/helpers';
 import httpMocks from 'node-mocks-http';
 
 jest.mock('../src/lib/helpers', () => ({
-  parseForm: jest.fn().mockResolvedValue({files: [], fields: {}}),
+  parseForm: jest.fn().mockResolvedValue({ files: [], fields: {} }),
 }));
 
 describe('withFileUpload', () => {
@@ -61,7 +61,10 @@ describe('withFileUpload', () => {
 
   it('should clean up all files', async () => {
     const destroyFunc = jest.fn();
-    (parseForm as jest.Mock).mockResolvedValueOnce({files: [{ destroy: destroyFunc }], fields: {}});
+    (parseForm as jest.Mock).mockResolvedValueOnce({
+      files: [{ destroy: destroyFunc }],
+      fields: {},
+    });
     const request = httpMocks.createRequest({
       method: 'POST',
     });

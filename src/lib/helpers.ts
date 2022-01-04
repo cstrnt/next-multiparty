@@ -37,7 +37,7 @@ export function parseForm(req: NextApiRequest) {
         acc[name] = Array.isArray(value) ? value[0] : value;
         return acc;
       }, {});
-      
+
       return resolve({ files: parsedFiles, fields: parsedFields });
     });
   });
