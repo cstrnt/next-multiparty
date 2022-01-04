@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { EnhancedFile, parseForm } from './lib/helpers';
 import { HTTP_METHOD } from './lib/types';
+import formidable from 'formidable';
 
 export type FormNextApiRequest = NextApiRequest & {
   files: EnhancedFile[];
@@ -10,11 +11,13 @@ export type FormNextApiRequest = NextApiRequest & {
 
 type Options = {
   allowedMethods?: HTTP_METHOD[];
-  cleanFiles?: boolean;
+  cleanupFiles?: boolean;
+  formidableOptions?: formidable.Options;
 };
+
 const DEFAULT_OPTIONS: Options = {
   allowedMethods: ['POST', 'PATCH', 'PUT'],
-  cleanFiles: true,
+  cleanupFiles: true,
 };
 
 /**
@@ -45,7 +48,7 @@ export function withFileUpload<
           'Invalid config. Please export the config as the variable `const`'
         );
       }
-      const { files, fields } = await parseForm(req);
+      const { files, fields } = await parseForm(req, config.formidableOptions);
       await handler(
         { ...req, files, file: files[0], fields } as RequestGeneric,
         res

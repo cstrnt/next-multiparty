@@ -16,7 +16,7 @@ export type EnhancedFile = formidable.File & {
  * @param req The request object
  * @returns the files
  */
-export function parseForm(req: NextApiRequest) {
+export function parseForm(req: NextApiRequest, options?: formidable.Options) {
   if (!req.headers['content-type']?.startsWith('multipart/form-data')) {
     throw new Error('Invalid Content-Type Header');
   }
@@ -24,7 +24,7 @@ export function parseForm(req: NextApiRequest) {
     files: EnhancedFile[];
     fields: Record<string, string>;
   }>((resolve, reject) => {
-    formidable({}).parse(req, (err, fields, files) => {
+    formidable(options).parse(req, (err, fields, files) => {
       if (err) {
         return reject(err);
       }

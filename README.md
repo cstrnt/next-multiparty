@@ -48,6 +48,20 @@ The following properties are added to the Request:
 - `file`: Single [EnhancedFile](#EnhancedFile). Will be `undefined` if there are no files
 - `fields`: Object containing the name of the field as the key and the value of the field as the value
 
+You can also pass a second parameter `options` to `withFileUpload`. Options is an object with the following values:
+
+```ts
+// Methods which should be allowed. Defaults to ['POST', 'PATCH', 'PUT']
+allowedMethods?: HTTP_METHOD[];
+
+// Flag whether the files should be removed after the execution of the handler. Defaults to true. You will probably not need to touch this.
+cleanupFiles?: boolean;
+
+// Options to change the behavior of formidable (e.g. max file size). Please refer to the https://github.com/node-formidable/formidable#options
+formidableOptions?: formidable.Options
+```
+
+
 ### EnhancedFile
 Basically just [formidable.File](https://github.com/node-formidable/formidable#file) but with two added helper functions:
 
