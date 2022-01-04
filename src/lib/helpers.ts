@@ -8,6 +8,14 @@ export type EnhancedFile = formidable.File & {
   destroy: () => Promise<void>;
 };
 
+/**
+ * Asynchronous wrapper around formidable
+ * which parses the request body and attaches all files and fields from a `multipart/form-data` request
+ * to the request object as `req.files` (`req.file`) or `req.fields`.
+ * files and files are flattened into a single entry
+ * @param req The request object
+ * @returns the files
+ */
 export function parseForm(req: NextApiRequest) {
   if (!req.headers['content-type']?.startsWith('multipart/form-data')) {
     throw new Error('Invalid Content-Type Header');
@@ -27,7 +35,10 @@ export function parseForm(req: NextApiRequest) {
             ...singleFile,
             name,
             toBuffer: () => fs.promises.readFile(singleFile.filepath),
-            destroy: () => fs.promises.unlink(singleFile.filepath),
+            destroy: () =>
+              // we just ignore the error here because if the file doesn't exist,
+              // we don't need to delete it anymore
+              fs.promises.unlink(singleFile.filepath).catch(() => {}),
           };
         }
       );

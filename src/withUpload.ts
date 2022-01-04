@@ -13,7 +13,7 @@ type Options = {
   cleanFiles?: boolean;
 };
 const DEFAULT_OPTIONS: Options = {
-  allowedMethods: ['POST'],
+  allowedMethods: ['POST', 'PATCH', 'PUT'],
   cleanFiles: true,
 };
 
