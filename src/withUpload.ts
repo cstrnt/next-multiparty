@@ -53,7 +53,9 @@ export function withFileUpload<
         { ...req, files, file: files[0], fields } as RequestGeneric,
         res
       );
-      await Promise.all(files.map(file => file.destroy()));
+      if (config.cleanupFiles) {
+        await Promise.all(files.map(file => file.destroy()));
+      }
     } catch (e) {
       console.error(e);
       res.status(500).end();
