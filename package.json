@@ -1,5 +1,5 @@
 {
-  "version": "0.5.1",
+  "version": "0.6.0",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -34,7 +34,7 @@
     "singleQuote": true,
     "trailingComma": "es5"
   },
-  "name": "next-multipart",
+  "name": "next-multiparty",
   "author": "cstrnt",
   "module": "dist/next-multipart.esm.js",
   "size-limit": [
