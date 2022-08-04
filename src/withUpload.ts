@@ -49,8 +49,22 @@ export function withFileUpload<
         );
       }
       const { files, fields } = await parseForm(req, config.formidableOptions);
+      Object.defineProperty(req, 'files', {
+        value: files,
+        writable: false
+      });
+      Object.defineProperty(req, 'fields', {
+        value: fields,
+        writable: false
+      });
+      if (files.length > 0) {
+        Object.defineProperty(req, 'file', {
+          value: files[0],
+          writable: false
+        });
+      }
       await handler(
-        { ...req, files, file: files[0], fields } as RequestGeneric,
+        req as RequestGeneric,
         res
       );
       if (config.cleanupFiles) {
