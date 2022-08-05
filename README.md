@@ -10,7 +10,11 @@ it to your Next.js app.
 
 ```
 yarn add next-multipart
+```
+```
 npm i next-multipart
+```
+```
 pnpm add next-multipart
 ```
 
