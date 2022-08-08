@@ -1,6 +1,6 @@
-# next-multipart
+# next-multiparty
 
-Next-multipart is a small utility library to ease the process of file uploads with Next.js.
+next-multiparty is a small utility library to ease the process of file uploads with Next.js.
 It uses [formidable](https://github.com/node-formidable/formidable) under the hood, but with much less work to do and a modern API
 
 ## Installation
@@ -9,20 +9,20 @@ Installation is pretty straight forward. Simply run one of the following command
 it to your Next.js app.
 
 ```
-yarn add next-multipart
+yarn add next-multiparty
 ```
 ```
-npm i next-multipart
+npm i next-multiparty
 ```
 ```
-pnpm add next-multipart
+pnpm add next-multiparty
 ```
 
 ## Usage
 
 **TL;DR:**
 
-1. `import { withFileUpload, getConfig } from 'next-multipart'`
+1. `import { withFileUpload, getConfig } from 'next-multiparty'`
 2. Simply wrap any api route with `withFileUpload`
 3. `export const config = getConfig()`
 4. You now can access `req.file` (if the request contained one file field) or `req.files`
@@ -35,7 +35,7 @@ The `withFileUpload` function is a higher-order function which should be wrapped
 an api route from next.js:
 
 ```js
-import { withFileUpload } from 'next-multipart';
+import { withFileUpload } from 'next-multiparty';
 export default withFileUpload(async (req, res) => {
     res.json({test: 1})
 })
