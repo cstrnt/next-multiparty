@@ -4,6 +4,7 @@ import fs from 'fs';
 
 export type EnhancedFile = formidable.File & {
   name: string;
+  toStream: () => fs.ReadStream;
   toBuffer: () => Promise<Buffer>;
   destroy: () => Promise<void>;
 };
