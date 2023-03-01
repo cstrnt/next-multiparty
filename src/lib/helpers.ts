@@ -30,11 +30,13 @@ export function parseForm(req: NextApiRequest, options?: formidable.Options) {
       }
       const parsedFiles: Array<EnhancedFile> = Object.entries(files).map(
         ([name, file]) => {
+          
           const singleFile = Array.isArray(file) ? file[0] : file;
           return {
             ...singleFile,
             name,
             toBuffer: () => fs.promises.readFile(singleFile.filepath),
+            toStream: () => fs.createReadStream(singleFile.filepath),
             destroy: () =>
               // we just ignore the error here because if the file doesn't exist,
               // we don't need to delete it anymore
