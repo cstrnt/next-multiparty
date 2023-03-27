@@ -51,22 +51,19 @@ export function withFileUpload<
       const { files, fields } = await parseForm(req, config.formidableOptions);
       Object.defineProperty(req, 'files', {
         value: files,
-        writable: false
+        writable: false,
       });
       Object.defineProperty(req, 'fields', {
         value: fields,
-        writable: false
+        writable: false,
       });
       if (files.length > 0) {
         Object.defineProperty(req, 'file', {
           value: files[0],
-          writable: false
+          writable: false,
         });
       }
-      await handler(
-        req as RequestGeneric,
-        res
-      );
+      await handler(req as RequestGeneric, res);
       if (config.cleanupFiles) {
         await Promise.all(files.map(file => file.destroy()));
       }

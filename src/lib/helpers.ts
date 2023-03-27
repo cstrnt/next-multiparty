@@ -31,7 +31,6 @@ export function parseForm(req: NextApiRequest, options?: formidable.Options) {
       }
       const parsedFiles: Array<EnhancedFile> = Object.entries(files).map(
         ([name, file]) => {
-          
           const singleFile = Array.isArray(file) ? file[0] : file;
           return {
             ...singleFile,
